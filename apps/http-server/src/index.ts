@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json())
 
 app.get("/", (req, res) => {
-  res.send("Hi there")
+  res.send("Hi there, now this change is directly done on the github")
 })
 
 app.post("/signup", async (req, res) => {
