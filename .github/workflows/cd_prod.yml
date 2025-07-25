@@ -1,0 +1,37 @@
+name: Deploy to dev server
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  redeploy_everything:
+    name: Deploying everything to the staging cluster
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup SSH key
+        run: |
+          echo "${{ secrets.DEV_SSH_PVT_KEY }}" > ssh_key
+          chmod 600 ssh_key
+
+      - name: Add SSH host to known_hosts (optional but safe)
+        run: |
+          ssh-keyscan -H 52.65.13.135 >> ~/.ssh/known_hosts
+
+      - name: SSH and deploy
+        run: |
+          ssh -i ssh_key ubuntu@52.65.13.135 << 'EOF'
+            set -e  # Exit immediately if a command fails
+            cd week-25-ci-next-app/
+            git pull origin main
+            pnpm install
+            pnpm run build
+            pm2 restart fe-sever
+            pm2 restart http-sever
+            pm2 restart ws-sever
+          EOF
