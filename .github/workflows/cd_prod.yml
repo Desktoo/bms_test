@@ -30,7 +30,6 @@ jobs:
             cd bms_test/ && git pull
             pnpm install
             pnpm run build
-            pm2 restart fe-sever
+            pm2 restart web
             pm2 restart http-sever
-            pm2 restart ws-sever
           EOF
