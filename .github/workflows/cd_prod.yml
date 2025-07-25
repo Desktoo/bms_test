@@ -31,5 +31,5 @@ jobs:
             pnpm install
             pnpm run build
             pm2 restart web
-            pm2 restart http-sever
+            pm2 restart http-server
           EOF
