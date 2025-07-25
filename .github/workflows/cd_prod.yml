@@ -27,7 +27,7 @@ jobs:
       - name: SSH and deploy
         run: |
           ssh -o StrictHostKeyChecking=no -i ssh_key ubuntu@52.65.13.135 << 'EOF'
-            cd week-25-ci-next-app/ && git pull
+            cd bms_test/ && git pull
             pnpm install
             pnpm run build
             pm2 restart fe-sever
